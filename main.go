@@ -92,5 +92,5 @@ func main() {
 	http.Handle("/website/", http.StripPrefix("/website/", fs))
 	http.Handle("/", makeHandler(viewHandler))
 	fmt.Println("Listening...")
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe(":8080", nil)
 }

@@ -1,0 +1,11 @@
+[Unit]
+Description=Graphs of the IMDB Movie Dataset
+ConditionPathExists=/home/ubuntu/go/src/github.com/naturalistic/profitablemovie/profitablemovie
+
+[Service]
+Restart=always
+RestartSec=3
+ExecStart=/home/ubuntu/go/src/github.com/naturalistic/profitablemovie/profitablemovie
+
+[Install]
+WantedBy=multi-user.target

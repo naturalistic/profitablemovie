@@ -4,24 +4,25 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"errors"
-	"golang org/x/net/context"
+	"fmt"
+	"golang.org/x/net/context"
 	"io/ioutil"
 	"os"
 	"time"
-	elastic "gopkg in/olivere/elastic v5"
+	elastic "gopkg.in/olivere/elastic.v5"
 )
 
 const avgGrossAggName = "avgGrossAgg"
-const configFileName = "config json"
+const configFileName = "config.json"
 const termsAggName = "termsAgg"
 const yearsAggName = "yearsAgg"
 
 type dataManagerConfig struct {
-	CacheExpiryMinutes int	`json "cache_expiry_minutes"`
-	ClusterUrl string	`json "cluster_url"`
-	DataPath string		`json "data_path"`
-	TypeName string		`json "type_name"`
-	IndexName string	`json "index_name"`
+	CacheExpiryMinutes int	`json:"cache_expiry_minutes"`
+	ClusterUrl string	`json:"cluster_url"`
+	DataPath string		`json:"data_path"`
+	TypeName string		`json:"type_name"`
+	IndexName string	`json:"index_name"`
 }
 
 type searchParameters struct {

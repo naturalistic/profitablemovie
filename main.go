@@ -4,7 +4,7 @@ package main
 
 import (
 	"encoding/json"
-	"github com/naturalistic/profitablemovie/datamanager"
+	"github.com/naturalistic/profitablemovie/datamanager"
 	"io/ioutil"
 	"net/http"
 	"regexp"
@@ -12,14 +12,14 @@ import (
 )
 
 type Page struct {
-	DataFile string		`json "data_file"`
-	Heading string		`json "heading"`
-	LayerType string	`json "layer_type"`
-	NavItems string		`json "nav_items"`
+	DataFile string		`json:"data_file"`
+	Heading string		`json:"heading"`
+	LayerType string	`json:"layer_type"`
+	NavItems string		`json:"nav_items"`
 }
 
 func loadPage(title string) (*Page, error) {
-	filename := "templates/" + title + ".json"
+	filename := "pages/" + title + ".json"
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,6 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	}
 	err = profitablemovie.UpdateData(p.DataFile)
 	if(err != nil) {
-		fmt.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

@@ -3,5 +3,5 @@
 	"cluster_url" : "http://search-imdbcluster-cc2g3qmm7gxezpomjwleoyin44.us-west-2.es.amazonaws.com",
 	"data_path" : "website/data/",
 	"type_name" : "imdbmovie",
-	"index_name" : "imdbindex",
+	"index_name" : "imdbindex"
 }

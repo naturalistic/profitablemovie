@@ -144,7 +144,7 @@ func ImportMovies(filepath string, overwrite bool) error {
 		}
 		fmt.Printf("Added movie '%s'\n", movie.MovieTitle)
 	}
-	fmt.Printf("Added %d movies to index");
+	fmt.Printf("Added %d movies to index\n", movieCount);
 	return nil
 }
 

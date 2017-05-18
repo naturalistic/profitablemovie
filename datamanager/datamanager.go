@@ -1,37 +1,36 @@
 package profitablemovie
 
 import (
-	"time"
-	"os"
-	"fmt"
-	"errors"
-        "golang.org/x/net/context"
-	elastic "gopkg.in/olivere/elastic.v5"
 	"encoding/csv"
-	"io/ioutil"
 	"encoding/json"
+	"errors"
+	"golang org/x/net/context"
+	"io/ioutil"
+	"os"
+	"time"
+	elastic "gopkg in/olivere/elastic v5"
 )
 
-const configFileName = "config.json"
+const avgGrossAggName = "avgGrossAgg"
+const configFileName = "config json"
 const termsAggName = "termsAgg"
 const yearsAggName = "yearsAgg"
-const avgGrossAggName = "avgGrossAgg"
 
-type DataManagerConfig struct {
-	IndexName string	`json:"index_name"`
-	TypeName string		`json:"type_name"`
-	ClusterUrl string	`json:"cluster_url"`
-	CacheExpiryMinutes int	`json:"cache_expiry_minutes"`
-	DataPath string		`json:"data_path"`
+type dataManagerConfig struct {
+	CacheExpiryMinutes int	`json "cache_expiry_minutes"`
+	ClusterUrl string	`json "cluster_url"`
+	DataPath string		`json "data_path"`
+	TypeName string		`json "type_name"`
+	IndexName string	`json "index_name"`
 }
 
-type SearchParameters struct {
+type searchParameters struct {
 	Keyword string
 	TermCount int
 	YearCount int
 }
 
-var keywordMap = map[string] SearchParameters {
+var keywordMap = map[string] searchParameters {
 	"movie_gross_by_country.csv" : {"country.keyword", 3, 20 },
 	"movie_gross_by_genre.csv" : {"genres.keyword", 6, 30},
 }
@@ -47,7 +46,6 @@ func UpdateData(filename string) error {
 		filepath := config.DataPath + filename
 		info, err := os.Stat(filepath)
 		if err != nil || time.Since(info.ModTime()).Minutes() >= float64(config.CacheExpiryMinutes) {
-			fmt.Println("Updating / creating file")
 			sr, err := performSearch(sp, config)
 			if err != nil {
 				return err
@@ -59,12 +57,12 @@ func UpdateData(filename string) error {
 	return errors.New("DataManager: no updater associated with given filename: " + filename)
 }
 
-func loadConfig(filename string) (*DataManagerConfig, error) {
+func loadConfig(filename string) (*dataManagerConfig, error) {
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	var config DataManagerConfig
+	var config dataManagerConfig
 	err = json.Unmarshal(file,&config)
 	if err != nil {
 		return nil, err
@@ -75,7 +73,7 @@ func loadConfig(filename string) (*DataManagerConfig, error) {
 // PerformsSearch performs an elastic search terms query. It accepts a Keyword to use as the main terms query, the Term
 // Count (takes top ranked by frequency) & the YearCount to go back. Returns data grouped by the term, then year with
 // avg. gross for each
-func performSearch(sp SearchParameters, config *DataManagerConfig) (*elastic.SearchResult, error) {
+func performSearch(sp searchParameters, config *dataManagerConfig) (*elastic.SearchResult, error) {
 	client, err := getElasticClient(config)
 	if err != nil {
 		return nil, err
@@ -101,7 +99,7 @@ func performSearch(sp SearchParameters, config *DataManagerConfig) (*elastic.Sea
 }
 
 // Initialises and returns an instance of the elastic client
-func getElasticClient(config *DataManagerConfig) (*elastic.Client, error) {
+func getElasticClient(config *dataManagerConfig) (*elastic.Client, error) {
 	ctx := context.Background()
 	client, err := elastic.NewClient(elastic.SetURL(config.ClusterUrl), elastic.SetSniff(false))
 	if err != nil {

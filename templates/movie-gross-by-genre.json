@@ -1,7 +1,6 @@
 {
-  "nav_items": "<li class=\"nav-item\"><a class=\"nav-link\" href=\"movie-gross-by-country\">Countries</a></li><li class=\"nav-item\"><a class=\"nav-link active\" href=\"movie-gross-by-genre\">Genres <span class=\"sr-only\">(current)</span></a></li>",
-  "heading": "Total Movie Gross By Genre",
   "data_file": "movie_gross_by_genre.csv",
-  "layer_type": "Genres"
+  "heading": "Total Movie Gross By Genre",
+  "layer_type": "Genres",
+  "nav_items": "<li class=\"nav-item\"><a class=\"nav-link\" href=\"movie-gross-by-country\">Countries</a></li><li class=\"nav-item\"><a class=\"nav-link active\" href=\"movie-gross-by-genre\">Genres <span class=\"sr-only\">(current)</span></a></li>"
 }
-

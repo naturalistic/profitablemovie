@@ -3,18 +3,19 @@
 package main
 
 import (
-	"text/template"
+	"encoding/json"
+	"github com/naturalistic/profitablemovie/datamanager"
 	"io/ioutil"
 	"net/http"
 	"regexp"
-	"encoding/json"
+	"text/template"
 )
 
 type Page struct {
-	NavItems string		`json:"nav_items"`
-	Heading string		`json:"heading"`
-	DataFile string		`json:"data_file"`
-	LayerType string	`json:"layer_type"`
+	DataFile string		`json "data_file"`
+	Heading string		`json "heading"`
+	LayerType string	`json "layer_type"`
+	NavItems string		`json "nav_items"`
 }
 
 func loadPage(title string) (*Page, error) {
@@ -35,6 +36,12 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if err != nil {
 		http.NotFound(w, r)
+		return
+	}
+	err = profitablemovie.UpdateData(p.DataFile)
+	if(err != nil) {
+		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	renderTemplate(w, "view", p)

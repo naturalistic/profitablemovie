@@ -1,7 +1,0 @@
-{
-	"index_name" : "imdbindex",
-	"type_name" : "imdbmovie",
-	"cluster_url" : "http://search-imdbcluster-cc2g3qmm7gxezpomjwleoyin44.us-west-2.es.amazonaws.com",
-	"cache_expiry_minutes" : 1,
-	"data_path" : "../website/data/"
-}
